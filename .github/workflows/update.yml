@@ -75,8 +75,8 @@ jobs:
         run: |
           docker run --rm \
             -v $(pwd)/apks:/apks \
-            -v $(pwd)\deploy:/deploy \
-            -v $(pwd)\repo:/repobase \
+            -v $(pwd)/deploy:/deploy \
+            -v $(pwd)/repo:/repobase \
             -w /repo \
             -e REPO_KEYALIAS="${{ secrets.REPO_KEYALIAS }}" \
             -e KEYSTOREPASS="${{ secrets.KEYSTOREPASS }}" \
