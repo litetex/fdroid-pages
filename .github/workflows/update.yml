@@ -1,6 +1,8 @@
 name: Update
 
 on:
+  push:
+    branches: [dev]
   workflow_dispatch:
 
 jobs:
@@ -24,6 +26,7 @@ jobs:
           echo "Currently deployed version is $current_deployed_release"
 
           if [[ "$latest_release_name" == "$current_deployed_release" ]]; then
+            echo "requires_update=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "requires_update=true" >> "$GITHUB_OUTPUT"
@@ -35,7 +38,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     needs: check-for-update
-    if: ${{ needs.check-for-update.outputs.requires_update == "true" }}
+    if: ${{ needs.check-for-update.outputs.requires_update }}
     steps:
       - uses: actions/checkout@v4
 
