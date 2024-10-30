@@ -20,10 +20,10 @@ jobs:
         run: |
           latest_release_data=$(curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases/latest)
           latest_release_name=$(echo "$latest_release_data" | jq '.name')
-          echo "Latest version is $latest_release_name"
+          echo "Latest version is \'$latest_release_name\'"
 
           current_deployed_release=$(cat current.txt || echo "")
-          echo "Currently deployed version is $current_deployed_release"
+          echo "Currently deployed version is \'$current_deployed_release\'"
 
           if [[ "$latest_release_name" == "$current_deployed_release" ]]; then
             echo "requires_update=false" >> "$GITHUB_OUTPUT"
@@ -32,7 +32,8 @@ jobs:
           echo "requires_update=true" >> "$GITHUB_OUTPUT"
           echo "latest_version=$latest_release_name" >> "$GITHUB_OUTPUT"
 
-          latest_version_download_url=$(echo $latest_release_data | grep "browser_download_url.*apk" | cut -d : -f 2,3 | tr -d \")
+          latest_version_download_url=$(echo "$latest_release_data" | grep "browser_download_url.*apk" | cut -d : -f 2,3 | tr -d \" )
+          echo "Latest version download url is \'$latest_version_download_url\'"
           echo "latest_version_download_url=$latest_version_download_url" >> "$GITHUB_OUTPUT"
 
   update:
