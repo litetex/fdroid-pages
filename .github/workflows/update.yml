@@ -68,7 +68,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
-      - run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > /repo/keystore.p12
+      - run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > repo/keystore.p12
 
       - name: Run F-Droid Repo Generator
         run: |
