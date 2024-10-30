@@ -90,7 +90,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./deploy/repo
+          publish_dir: ./deploy
 
       - name: Update currently deployed version
         run: |

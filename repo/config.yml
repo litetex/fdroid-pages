@@ -47,7 +47,7 @@
 
 # Canonical URL of the repositoy, needs to end in /repo. Is is used to identity
 # the repo in the client, as well.
-repo_url: https://litetex.github.io/fdroid-pages
+repo_url: https://litetex.github.io/fdroid-pages/repo
 #
 # Base URL for per-package pages on the website of this repo,
 # i.e. https://f-droid.org/packages/<appid>/ This should be accessible
