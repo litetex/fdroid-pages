@@ -53,7 +53,7 @@ repo_url: https://litetex.github.io/fdroid-pages/repo
 # i.e. https://f-droid.org/packages/<appid>/ This should be accessible
 # with a browser. Setting it to null or not setting this disables the
 # feature.
-# repo_web_base_url: http://192.168.178.22/packages/
+# repo_web_base_url: http://localhost/packages/
 
 repo_name: F-Droid Test Repo
 # repo_description: >-
@@ -302,7 +302,7 @@ keydname: $KEYDNAME
 # standard folder called 'fdroid' as the specified folder is recommended, like
 # with serverwebroot.
 #
-local_copy_dir: /deploy
+local_copy_dir: /deploy/fdroid
 
 
 # If you are using local_copy_dir on an offline build/signing server, once the
