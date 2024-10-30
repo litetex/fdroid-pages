@@ -55,6 +55,9 @@ jobs:
           echo "${{ needs.check-for-update.outputs.latest_version_download_url }}" | wget -P apks --no-verbose -i -
           ls -lha apks
       
+      - name: Load KeyStore file
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d - > repo/keystore.p12
+      
       - uses: docker/setup-qemu-action@v3
 
       - uses: docker/setup-buildx-action@v3
@@ -67,8 +70,6 @@ jobs:
           tags: fdroid-repo-generator
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
-      - run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > repo/keystore.p12
 
       - name: Run F-Droid Repo Generator
         run: |
