@@ -5,6 +5,10 @@ on:
     branches: [dev]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   check-for-update:
     runs-on: ubuntu-latest
@@ -15,8 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Download new APK if required
-        id: check
+      - id: check
         run: |
           latest_release_data=$(curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases/latest)
           latest_release_name=$(echo "$latest_release_data" | jq '.name')
@@ -43,4 +46,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: echo "${{ needs.check-for-update.outputs.latest_version_download_url }}"
+      - name: Download assets
+        run: |
+          mkdir -p apks
+          echo "${{ needs.check-for-update.outputs.latest_version_download_url }}" | wget -P apks --no-verbose -i -
+          ls -lha apks
+      
+      - uses: docker/setup-qemu-action@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build F-Droid Repo Generator
+        uses: docker/build-push-action@v6
+        with:
+          context: ./fdroid-repo-generator
+          load: true
+          tags: fdroid-repo-generator
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > /repo/keystore.p12
+
+      - name: Run F-Droid Repo Generator
+        run: |
+          docker run --rm \
+            -v $(pwd)/apks:/apks \
+            -v $(pwd)\deploy:/deploy \
+            -v $(pwd)\repo:/repobase \
+            -w /repo \
+            -e REPO_KEYALIAS="${{ secrets.REPO_KEYALIAS }}" \
+            -e KEYSTOREPASS="${{ secrets.KEYSTOREPASS }}" \
+            -e KEYPASS="${{ secrets.KEYPASS }}" \
+            -e KEYDNAME="${{ secrets.KEYDNAME }}" \
+            fdroid-repo-generator
+      
+      - run: touch ./deploy/.nojekyll
+
+      - name: Deploy to Github pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy/repo
+
+      - name: Update currently deployed version
+        run: |
+          echo "${{ needs.check-for-update.outputs.latest_version }}" > current.txt
