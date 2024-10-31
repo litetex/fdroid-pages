@@ -23,11 +23,9 @@ sed -i 's@$KEYDNAME@"'"$KEYDNAME"'"@g' /repo/config.yml
 echo "Ensuring that permissions are correct"
 chown root:root /repo/config.yml
 chmod 600 /repo/config.yml
-chown root:root /repo/keystore.p12
-chmod 600 /repo/keystore.p12
 
 echo "Updating..."
-fdroid update -v --use-date-from-apk 
+fdroid update --use-date-from-apk 
 
 echo "Deploying..."
 fdroid deploy
