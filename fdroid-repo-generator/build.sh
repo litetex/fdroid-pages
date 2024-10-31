@@ -1,3 +1,6 @@
+# Abort on failure
+set -e
+
 echo "Cleaning"
 rm -rf /repo/*
 
