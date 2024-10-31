@@ -20,8 +20,8 @@ To generate these you have to run the ``fdroid-repo-generator``-Docker image off
 2. Select the directory [``fdroid-repo-generator``](./fdroid-repo-generator) using ``cd fdroid-repo-generator``
 3. Build the image offline: ``docker build --tag fdroid-repo-generator .`` (the dot at the end is important)
 4. Launch the container ``docker run --rm -it --entrypoint=/bin/bash -v %cd%/temp-repo:/repo -w /repo fdroid-repo-generator``
-  * This will create a new directory ``temp-repo``, if this is already present you may need to clean it
-  * After the container is launched a console should be visible
+    * This will create a new directory ``temp-repo``, if this is already present you may need to clean it
+    * After the container is launched a console should be visible
 5. Execute ``fdroid init`` to initialize the repo
 6. When this is done exit the container with typing ``exit``
 
