@@ -70,6 +70,7 @@ jobs:
           tags: fdroid-repo-generator
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          outputs: type=image,compression=zstd
 
       - run: |
           mkdir -p ./deploy/fdroid
