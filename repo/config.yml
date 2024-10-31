@@ -2,6 +2,9 @@
 # Copy this file to config.yml, then amend the settings below according to
 # your system configuration.
 
+# Custom path to the Android SDK, defaults to $ANDROID_HOME
+# sdk_path: $ANDROID_HOME
+
 # Paths to installed versions of the Android NDK.  This will be
 # automatically filled out from well known sources like
 # $ANDROID_HOME/ndk-bundle and $ANDROID_HOME/ndk/*.  If a required
