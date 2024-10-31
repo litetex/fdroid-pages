@@ -13,9 +13,8 @@ cp -a /repobase/. /repo/
 
 echo "SEDing config.yml REPO_KEYALIAS"
 sed -i 's@$REPO_KEYALIAS@"'"$REPO_KEYALIAS"'"@g' /repo/config.yml
-echo "SEDing config.yml KEYSTOREPASS"
-sed -i 's@$KEYSTOREPASS@"'"$KEYSTOREPASS"'"@g' /repo/config.yml
-echo "SEDing config.yml KEYPASS"
+echo "SEDing config.yml KEYPASS (also used for KEYSTOREPASS)"
+sed -i 's@$KEYPASS@"'"$KEYSTOREPASS"'"@g' /repo/config.yml
 sed -i 's@$KEYPASS@"'"$KEYPASS"'"@g' /repo/config.yml
 echo "SEDing config.yml KEYDNAME"
 sed -i 's@$KEYDNAME@"'"$KEYDNAME"'"@g' /repo/config.yml
