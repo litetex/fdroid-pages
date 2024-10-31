@@ -53,7 +53,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     needs: check-for-update
-    if: ${{ needs.check-for-update.outputs.requires_update }}
+    if: ${{ needs.check-for-update.outputs.requires_update == "true" }}
     steps:
       - uses: actions/checkout@v4
 
@@ -126,7 +126,7 @@ jobs:
 
   mirror:
     runs-on: ubuntu-latest
-    needs: [check-for-update]
+    needs: [check-for-update, update]
     steps:
       - run: |
           git clone --bare https://github.com/litetex/fdroid-pages.git --single-branch --branch gh-pages
@@ -139,8 +139,7 @@ jobs:
 
   track-current-version:
     runs-on: ubuntu-latest
-    needs: [check-for-update]
-    if: ${{ needs.check-for-update.outputs.requires_update }}
+    needs: [check-for-update, update]
     steps:
       - uses: actions/checkout@v4
 
