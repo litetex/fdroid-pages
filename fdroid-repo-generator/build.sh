@@ -8,12 +8,13 @@ cp -a /apks/*.apk /repo/repo/
 echo "Copying repobase"
 cp -a /repobase/. /repo/
 
-/usr/bin/keytool -exportcert -alias $REPO_KEYALIAS -keystore keystore.p12 -storepass:env KEYSTOREPASS
-
-echo "SEDing config.yml"
+echo "SEDing config.yml REPO_KEYALIAS"
 sed -i -e 's/$REPO_KEYALIAS/'\""$REPO_KEYALIAS"\"'/' /repo/config.yml
+echo "SEDing config.yml KEYSTOREPASS"
 sed -i -e 's/$KEYSTOREPASS/'\""$KEYSTOREPASS"\"'/' /repo/config.yml
+echo "SEDing config.yml KEYPASS"
 sed -i -e 's/$KEYPASS/'\""$KEYPASS"\"'/' /repo/config.yml
+echo "SEDing config.yml KEYDNAME"
 sed -i -e 's/$KEYDNAME/'\""$KEYDNAME"\"'/' /repo/config.yml
 
 echo "Ensuring that permissions are correct"
