@@ -1,0 +1,17 @@
+name: Mirror
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          git clone --bare https://github.com/litetex/fdroid-pages.git --single-branch --branch gh-pages
+          cd fdroid-pages.git
+          echo "Clone successful - Starting push"
+          git push --mirror https://litetex:${{ secrets.CB_TOKEN }}@codeberg.org/litetex/fdroid-pages.git
+          echo "Done"
