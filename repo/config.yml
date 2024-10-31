@@ -58,7 +58,7 @@ repo_url: https://litetex.github.io/fdroid-pages/fdroid/repo
 # feature.
 # repo_web_base_url: http://localhost/packages/
 
-repo_name: F-Droid Test Repo
+repo_name: litetex's Test Repo
 repo_description: >-
   This is a F-Droid repository used for testing. 
   Hosted on a static site hosting service like GitHub Pages.
