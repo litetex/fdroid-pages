@@ -59,12 +59,9 @@ repo_url: https://litetex.github.io/fdroid-pages/fdroid/repo
 # repo_web_base_url: http://localhost/packages/
 
 repo_name: F-Droid Test Repo
-# repo_description: >-
-#   This is a repository of apps to be used with F-Droid. Applications
-#   in this repository are either official binaries built by the
-#   original application developers, or are binaries built from source
-#   by the admin of f-droid.org using the tools on
-#   https://gitlab.com/fdroid.
+repo_description: >-
+  This is a F-Droid repository used for testing. 
+  Hosted on a online static site hosting service like GitHub Pages.
 
 # As above, but for the archive repo.
 #
@@ -86,7 +83,7 @@ repo_name: F-Droid Test Repo
 # set the filename here.  You must still copy it into place in
 # repo/icons/ and/or archive/icons/.
 #
-# repo_icon: myicon.png
+repo_icon: icon.jpg
 # archive_icon: myicon.png
 
 # This allows a specific kind of insecure APK to be included in the
