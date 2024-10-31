@@ -8,6 +8,8 @@ cp -a /apks/*.apk /repo/repo/
 echo "Copying repobase"
 cp -a /repobase/. /repo/
 
+/usr/bin/keytool -exportcert -alias $REPO_KEYALIAS -keystore keystore.p12 -storepass:env FDROID_KEY_STORE_PASS
+
 echo "SEDing config.yml"
 sed -i -e 's/$REPO_KEYALIAS/'\""$REPO_KEYALIAS"\"'/' /repo/config.yml
 sed -i -e 's/$KEYSTOREPASS/'\""$KEYSTOREPASS"\"'/' /repo/config.yml
