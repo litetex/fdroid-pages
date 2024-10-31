@@ -57,7 +57,18 @@ jobs:
       - name: Download assets
         run: |
           mkdir -p apks
+
+          echo "Downloading latest version"
           echo "${{ needs.check-for-update.outputs.latest_version_download_url }}" | wget -P apks --no-verbose -i -
+
+          echo "Downloading recent releases"
+          curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases?per_page=5 \
+            | jq '.[].assets[].browser_download_url' \
+            | while read -r url; do echo $url | wget -P apks --no-verbose -i -; done
+          
+          # Delete renamed apks
+          (cd apks && find . -type f ! -name '*.apk' -delete)
+          
           ls -lha apks
       
       - name: Load KeyStore file
