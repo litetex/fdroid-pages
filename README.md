@@ -9,7 +9,7 @@ Open https://litetex.github.io/fdroid-pages for a live demo.
 ## Initial setup
 
 > [!IMPORTANT]
-> If you want to [create your own repo](https://f-droid.org/en/docs/Setup_an_F-Droid_App_Repo/) and use this repo as a base, but make sure to remove all branded assets like images and names!
+> If you want to [create your own repo](https://f-droid.org/en/docs/Setup_an_F-Droid_App_Repo/) and use this repo as a base, but make sure to remove/customize all assets like images, links and names!
 
 You need a few secrets that are used for verifying the repo.
 
