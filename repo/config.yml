@@ -83,7 +83,7 @@ repo_description: >-
 # set the filename here.  You must still copy it into place in
 # repo/icons/ and/or archive/icons/.
 #
-repo_icon: icon.jpg
+repo_icon: icon.avif
 # archive_icon: myicon.png
 
 # This allows a specific kind of insecure APK to be included in the
