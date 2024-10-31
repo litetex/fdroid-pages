@@ -63,7 +63,7 @@ jobs:
 
           echo "Downloading recent releases"
           curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases?per_page=5 \
-            | jq '.[].assets[].browser_download_url' \
+            | jq -r '.[].assets[].browser_download_url' \
             | while read -r url; do wget -P apks --no-verbose $url; done
 
           # Delete renamed apks
