@@ -9,13 +9,13 @@ echo "Copying repobase"
 cp -a /repobase/. /repo/
 
 echo "SEDing config.yml REPO_KEYALIAS"
-sed -i 's/$REPO_KEYALIAS/"'"$REPO_KEYALIAS"'"/g' /repo/config.yml
+sed -i 's@$REPO_KEYALIAS@"'"$REPO_KEYALIAS"'"@g' /repo/config.yml
 echo "SEDing config.yml KEYSTOREPASS"
-sed -i 's/$KEYSTOREPASS/"'"$KEYSTOREPASS"'"/g' /repo/config.yml
+sed -i 's@$KEYSTOREPASS@"'"$KEYSTOREPASS"'"@g' /repo/config.yml
 echo "SEDing config.yml KEYPASS"
-sed -i 's/$KEYPASS/"'"$KEYPASS"'"/g' /repo/config.yml
+sed -i 's@$KEYPASS@"'"$KEYPASS"'"@g' /repo/config.yml
 echo "SEDing config.yml KEYDNAME"
-sed -i 's/$KEYDNAME/"'"$KEYDNAME"'"/g' /repo/config.yml
+sed -i 's@$KEYDNAME@"'"$KEYDNAME"'"@g' /repo/config.yml
 
 echo "Ensuring that permissions are correct"
 chown root:root /repo/config.yml
