@@ -22,4 +22,4 @@ RepoType: git
 Repo: https://github.com/TeamNewPipe/NewPipe.git
 
 Summary: A free lightweight YouTube frontend for Android (Nightly)
-Description: This is a preview version of NewPipe built every night from the development branch.
+Description: This is a preview version of NewPipe with the latest cutting edge changes from the development branch
