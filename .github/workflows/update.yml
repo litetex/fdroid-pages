@@ -77,8 +77,8 @@ jobs:
           cache-to: type=gha,mode=max
 
       - run: |
-          mkdir -p deploy/fdroid
-          cat <<EOF >> deploy/fdroid/index.html
+          mkdir -p deploy
+          cat <<EOF >> deploy/index.html
           <html>
           <head>
           <meta http-equiv="refresh" content="0; url=fdroid/repo" />
