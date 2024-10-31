@@ -64,11 +64,11 @@ jobs:
           echo "Downloading recent releases"
           curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases?per_page=5 \
             | jq '.[].assets[].browser_download_url' \
-            | while read -r url; do echo $url | wget -P apks --no-verbose -i -; done
+            | while read -r url; wget -P apks --no-verbose -i $url ; done
           
           # Delete renamed apks
           (cd apks && find . -type f ! -name '*.apk' -delete)
-          
+
           ls -lha apks
       
       - name: Load KeyStore file
