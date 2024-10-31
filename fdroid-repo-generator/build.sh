@@ -3,7 +3,6 @@ set -e
 
 echo "Cleaning"
 rm -rf /repo/*
-
 mkdir -p /repo/repo
 
 echo "Copying apks"
