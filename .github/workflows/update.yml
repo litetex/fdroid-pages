@@ -73,7 +73,16 @@ jobs:
 
       - run: |
           mkdir -p ./deploy/fdroid
-          touch ./deploy/fdroid/.nojekyll
+          cat <<EOF >  /deploy/fdroid/index.html
+          <html>
+          <head>
+          <meta http-equiv="refresh" content="0; url=fdroid/repo" />
+          </head>
+          <body>
+          <p><a href="fdroid/repo">Click here if redirect is not working</a></p>
+          </body>
+          </html>
+          EOF
 
       - name: Run F-Droid Repo Generator
         run: |
@@ -92,7 +101,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./deploy/fdroid
+          publish_dir: ./deploy
+          force_orphan: true
 
   post-update:
     runs-on: ubuntu-latest
