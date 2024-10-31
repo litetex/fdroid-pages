@@ -36,10 +36,13 @@ jobs:
           current_deployed_release=$(cat current.txt || echo "")
           echo "Currently deployed version is '$current_deployed_release'"
 
+          echo "Force update is '${{ inputs.force_update }}'"
+
           if [[ "${{ inputs.force_update }}" != "true" && "$latest_release_name" == "$current_deployed_release" ]]; then
             echo "requires_update=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          
           echo "requires_update=true" >> "$GITHUB_OUTPUT"
           echo "latest_version=$latest_release_name" >> "$GITHUB_OUTPUT"
 
