@@ -7,7 +7,7 @@ on:
     inputs:
       force_update:
         type: boolean
-        description: 'Force an update/build'
+        description: 'Force update/build'
         default: false
 
 concurrency:
