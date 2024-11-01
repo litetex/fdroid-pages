@@ -27,7 +27,7 @@ To generate these you have to run the ``fdroid-repo-generator``-Docker image off
 
 You now should have a fresh F-Droid repo initialized in ``temp-repo``.
 
-Now we need the following and put store it in the (GitHub Action) secrets of the repo:
+Now we need to get the following secrets and store them in GitHub Action secrets:
 
 | What? | Secret name | Notes |
 | --- | --- | --- |
@@ -35,7 +35,6 @@ Now we need the following and put store it in the (GitHub Action) secrets of the
 | ``config.yml``→``repo_keyalias`` | ``REPO_KEYALIAS`` | |
 | ``config.yml``→``keystorepass`` or ``keypass`` (identical) | ``KEYPASS`` | ``keystorepass`` and ``keypass`` are usually identical |
 | ``config.yml``→``keydname`` | ``KEYDNAME`` | |
-
 
 ## Mirroring
 
