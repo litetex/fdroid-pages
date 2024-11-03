@@ -31,7 +31,7 @@ Now we need to get the following secrets and store them in GitHub Action secrets
 
 | What? | Secret name | Notes |
 | --- | --- | --- |
-| ``keystore.p12`` | ``KEYSTORE_BASE64`` | Needs to be converted to base64.<br/>Easiest way: ``cat keystore.p12 | base64 > keystore_b64.txt`` |
+| ``keystore.p12`` | ``KEYSTORE_BASE64`` | Needs to be converted to base64.<br/>Easiest way: ``cat keystore.p12 \| base64 > keystore_b64.txt`` |
 | ``config.yml``→``repo_keyalias`` | ``REPO_KEYALIAS`` | |
 | ``config.yml``→``keystorepass`` or ``keypass`` (identical) | ``KEYPASS`` | ``keystorepass`` and ``keypass`` are usually identical |
 | ``config.yml``→``keydname`` | ``KEYDNAME`` | |
