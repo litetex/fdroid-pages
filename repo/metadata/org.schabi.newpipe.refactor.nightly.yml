@@ -1,0 +1,23 @@
+# See also: https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/org.schabi.newpipe.yml
+AntiFeatures:
+  NonFreeNet:
+    en-US: Depends on Youtube for videos.
+Categories:
+  - Internet
+  - Multimedia
+License: GPL-3.0-or-later
+AuthorName: Team NewPipe
+AuthorEmail: team@newpipe.net
+WebSite: https://newpipe.net
+SourceCode: https://github.com/TeamNewPipe/NewPipe/tree/refactor
+IssueTracker: https://github.com/TeamNewPipe/NewPipe/issues
+Translation: https://hosted.weblate.org/projects/newpipe/
+Changelog: https://github.com/TeamNewPipe/NewPipe-refactor-nightly/releases
+
+AutoName: NewPipe Refactor Nightly
+
+RepoType: git
+Repo: https://github.com/TeamNewPipe/NewPipe.git
+
+Summary: A free lightweight YouTube frontend for Android (Refactoring Nightly)
+Description: This is a preview version of NewPipe with the latest cutting edge changes from the development branch
