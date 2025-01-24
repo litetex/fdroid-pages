@@ -29,9 +29,10 @@ jobs:
         id: update
         run: |
           set -e
-          declare -a repo_infos=( \
-            "org.schabi.newpipe.nightly;github;TeamNewPipe/NewPipe-nightly", \
-            "org.schabi.newpipe.refactor.nightly;github;TeamNewPipe/NewPipe-refactor-nightly")
+          declare -a repo_infos=(
+            "org.schabi.newpipe.nightly;github;TeamNewPipe/NewPipe-nightly",
+            "org.schabi.newpipe.refactor.nightly;github;TeamNewPipe/NewPipe-refactor-nightly"
+          )
 
           force_update="${{ inputs.force_update }}"
           
