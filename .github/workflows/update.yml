@@ -27,6 +27,7 @@ jobs:
 
       - id: update
         run: |
+          set -ex
           declare -a repo_infos=( \
             "org.schabi.newpipe.nightly:github:TeamNewPipe/NewPipe-nightly")
 
@@ -86,7 +87,7 @@ jobs:
 
             latest_version=""
             if [[ "$provider" == "github" ]]; then
-              curl -L https://api.github.com/repos/$repoy/releases?per_page=5 \
+              curl -L https://api.github.com/repos/$repo/releases?per_page=5 \
                 | jq -r '.[].assets[].browser_download_url' \
                 | while read -r url; do wget -P apks --no-verbose $url; done
               
@@ -102,9 +103,10 @@ jobs:
             echo "$latest_version" > current-versions/$id.txt
           done
 
-          # Delete renamed apks
+          echo "Deleting non-APK files"
           (cd apks && find . -type f ! -name '*.apk' -delete)
 
+          echo "Done"
           echo "do_update=true" >> "$GITHUB_ENV"
           ls -lha apks
       
