@@ -28,7 +28,7 @@ jobs:
       - id: update
         run: |
           declare -a repo_infos=( \
-            "org.schabi.newpipe:github:TeamNewPipe/NewPipe-nightly")
+            "org.schabi.newpipe.nightly:github:TeamNewPipe/NewPipe-nightly")
 
           force_update="${{ inputs.force_update }}"
           
@@ -46,7 +46,7 @@ jobs:
 
               echo "Checking if $id needs updating"
 
-              current_deployed_release=$(cat current_versions/$id.txt || echo "")
+              current_deployed_release=$(cat current-versions/$id.txt || echo "")
               echo "Currently deployed version is '$current_deployed_release'"
 
               latest_version=""
@@ -98,7 +98,8 @@ jobs:
             fi
 
             echo "Downloaded APKs. Saving latest version $latest_version"
-            echo "$latest_version" > current_versions/$id.txt
+            mkdir current-versions
+            echo "$latest_version" > current-versions/$id.txt
           done
 
           # Delete renamed apks
@@ -171,7 +172,8 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
 
-          echo "Trying to commit changed files"
+          echo "Committing changed tracking files"
+          git add -A || true
           git commit -m "Update versions" && git push || true
 
           echo "executed_update=true" >> "$GITHUB_OUTPUT"
