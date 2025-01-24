@@ -27,7 +27,7 @@ jobs:
 
       - id: update
         run: |
-          set -ex
+          set -e
           declare -a repo_infos=( \
             "org.schabi.newpipe.nightly:github:TeamNewPipe/NewPipe-nightly")
 
