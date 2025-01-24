@@ -101,7 +101,7 @@ jobs:
             fi
 
             echo "Downloaded APKs. Saving latest version $latest_version"
-            mkdir current-versions
+            mkdir -p current-versions
             echo "$latest_version" > current-versions/$id.txt
           done
 
