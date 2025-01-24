@@ -2,7 +2,7 @@
 
 Showcases how it is possible to host a F-Droid repo on a static site hosting service like GitHub Pages.
 
-It currently is configured to contain [NewPipe-nightly](https://github.com/TeamNewPipe/NewPipe-nightly).
+It currently is configured to contain [NewPipe-nightly](https://github.com/TeamNewPipe/NewPipe-nightly) and [NewPipe-refactor-nightly](https://github.com/TeamNewPipe/NewPipe-refactor-nightly).
 
 Open https://litetex.github.io/fdroid-pages for a live demo.
 
@@ -41,3 +41,7 @@ Now we need to get the following secrets and store them in GitHub Action secrets
 This example uses mirroring to [Codeberg](https://codeberg.org/litetex/fdroid-pages).
 
 The mirrored Codeberg site is available at: https://litetex.codeberg.page/fdroid-pages
+
+## Similar projects
+* https://gitlab.com/julianfairfax/fdroid-repo
+* https://github.com/breezy-weather/fdroid-repo
