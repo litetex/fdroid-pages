@@ -1,6 +1,6 @@
 # fdroid-pages
 
-Showcases how it is possible to host a F-Droid repo on a static site hosting service like GitHub Pages.
+Showcases how it's possible to provide an F-Droid repo on a static site hosting service like GitHub Pages.
 
 It currently is configured to contain [NewPipe-nightly](https://github.com/TeamNewPipe/NewPipe-nightly) and [NewPipe-refactor-nightly](https://github.com/TeamNewPipe/NewPipe-refactor-nightly).
 

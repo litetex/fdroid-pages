@@ -61,7 +61,7 @@ repo_url: https://litetex.github.io/fdroid-pages/fdroid/repo
 repo_name: litetex's Test Repo
 repo_description: >-
   This is a F-Droid repository used for testing. 
-  Hosted on a static site hosting service like GitHub Pages.
+  Provided using a static site hosting service like GitHub Pages.
 
 # As above, but for the archive repo.
 #
