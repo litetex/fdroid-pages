@@ -18,70 +18,107 @@ permissions:
   contents: write
 
 jobs:
-  check-for-update:
-    runs-on: ubuntu-latest
-    outputs:
-      requires_update: ${{ steps.check.outputs.requires_update }}
-      latest_version: ${{ steps.check.outputs.latest_version }}
-      latest_version_download_url: ${{ steps.check.outputs.latest_version_download_url }}
-    steps:
-      - uses: actions/checkout@v4
-      
-      - id: check
-        run: |
-          latest_release_data=$(curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases/latest)
-          latest_release_name=$(echo "$latest_release_data" | jq -r '.name')
-          echo "Latest version is '$latest_release_name'"
-
-          current_deployed_release=$(cat current.txt || echo "")
-          echo "Currently deployed version is '$current_deployed_release'"
-
-          echo "Force update is '${{ inputs.force_update }}'"
-
-          if [[ "${{ inputs.force_update }}" != "true" && "$latest_release_name" == "$current_deployed_release" ]]; then
-            echo "requires_update=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          echo "requires_update=true" >> "$GITHUB_OUTPUT"
-          echo "latest_version=$latest_release_name" >> "$GITHUB_OUTPUT"
-
-          latest_version_download_url=$(echo "$latest_release_data" | grep "browser_download_url.*apk" | cut -d : -f 2,3 | tr -d \" )
-          echo "Latest version download url is '$latest_version_download_url'"
-          echo "latest_version_download_url=$latest_version_download_url" >> "$GITHUB_OUTPUT"
-
   update:
     runs-on: ubuntu-latest
-    needs: check-for-update
-    if: needs.check-for-update.outputs.requires_update == 'true'
+    outputs:
+      executed_update: ${{ steps.check.postprocess.executed_update }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download assets
+      - id: update
         run: |
+          declare -a repo_infos=( \
+            "org.schabi.newpipe:github:TeamNewPipe/NewPipe-nightly")
+
+          force_update="${{ inputs.force_update }}"
+          
+          if [[ "$force_update" != "true" ]]; then
+            echo "Checking if updates are required..."
+
+            update_required=false
+
+            for repo_info in ${repo_infos[@]}; do
+              repo_info_parts=(${repo_info//:/ })
+
+              id=${repo_info_parts[0]}
+              provider=${repo_info_parts[1]}
+              repo=${repo_info_parts[2]}
+
+              echo "Checking if $id needs updating"
+
+              current_deployed_release=$(cat current_versions/$id.txt || echo "")
+              echo "Currently deployed version is '$current_deployed_release'"
+
+              latest_version=""
+              if [[ "$provider" == "github" ]]; then
+                latest_release_data=$(curl -L https://api.github.com/repos/$repo/releases/latest)
+                latest_version=$(echo "$latest_release_data" | jq -r '.name')
+              else
+                echo "Unknown provider"
+                exit 1
+              fi
+
+              echo "Latest version is '$latest_version'"
+              if [[ "$current_deployed_release" != "$latest_version" ]]; then
+                echo "Update required"
+                update_required=true
+                break
+              fi
+            done
+
+            if [[ "$update_required" != "true" ]]; then
+              echo "Everything is up-to-date; No update required"
+              exit 0
+            fi
+          fi
+
+          echo "Downloading APKs"
           mkdir -p apks
 
-          echo "Downloading latest version"
-          echo "${{ needs.check-for-update.outputs.latest_version_download_url }}" | wget -P apks --no-verbose -i -
+          for repo_info in ${repo_infos[@]}; do
+            repo_info_parts=(${repo_info//:/ })
 
-          echo "Downloading recent releases"
-          curl -L https://api.github.com/repos/TeamNewPipe/NewPipe-nightly/releases?per_page=5 \
-            | jq -r '.[].assets[].browser_download_url' \
-            | while read -r url; do wget -P apks --no-verbose $url; done
+            id=${repo_info_parts[0]}
+            provider=${repo_info_parts[1]}
+            repo=${repo_info_parts[2]}
+
+            echo "Downloading APKs for $id"
+
+            latest_version=""
+            if [[ "$provider" == "github" ]]; then
+              curl -L https://api.github.com/repos/$repoy/releases?per_page=5 \
+                | jq -r '.[].assets[].browser_download_url' \
+                | while read -r url; do wget -P apks --no-verbose $url; done
+              
+              latest_release_data=$(curl -L https://api.github.com/repos/$repo/releases/latest)
+              latest_version=$(echo "$latest_release_data" | jq -r '.name')
+            else
+              echo "Unknown provider"
+              exit 1
+            fi
+
+            echo "Downloaded APKs. Saving latest version $latest_version"
+            echo "$latest_version" > current_versions/$id.txt
+          done
 
           # Delete renamed apks
           (cd apks && find . -type f ! -name '*.apk' -delete)
 
+          echo "do_update=true" >> "$GITHUB_ENV"
           ls -lha apks
       
       - name: Load KeyStore file
+        if: ${{ env.do_update == 'true' }}
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d - > repo/keystore.p12
       
       - uses: docker/setup-qemu-action@v3
+        if: ${{ env.do_update == 'true' }}
 
       - uses: docker/setup-buildx-action@v3
+        if: ${{ env.do_update == 'true' }}
 
       - name: Build F-Droid Repo Generator
+        if: ${{ env.do_update == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: ./fdroid-repo-generator
@@ -91,6 +128,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Write index.html
+        if: ${{ env.do_update == 'true' }}
         run: |
           mkdir -p deploy
           cat <<EOF >> deploy/index.html
@@ -105,6 +143,7 @@ jobs:
           EOF
 
       - name: Run F-Droid Repo Generator
+        if: ${{ env.do_update == 'true' }}
         run: |
           docker run --rm \
             -v $(pwd)/apks:/apks \
@@ -118,15 +157,29 @@ jobs:
             fdroid-repo-generator
 
       - name: Deploy to Github pages
+        if: ${{ env.do_update == 'true' }}
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./deploy
           force_orphan: true
+      
+      - id: postprocess
+        if: ${{ env.do_update == 'true' }}
+        run: |
+          echo "Configuring git"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+          echo "Trying to commit changed files"
+          git commit -m "Update versions" && git push || true
+
+          echo "executed_update=true" >> "$GITHUB_OUTPUT"
 
   mirror:
     runs-on: ubuntu-latest
-    needs: [check-for-update, update]
+    needs: update
+    if: needs.update.outputs.executed_update == 'true'
     steps:
       - run: |
           git clone --bare https://github.com/litetex/fdroid-pages.git --single-branch --branch gh-pages
@@ -136,23 +189,3 @@ jobs:
           echo "Starting push"
           git push --mirror https://litetex:${{ secrets.CB_TOKEN }}@codeberg.org/litetex/fdroid-pages.git
           echo "Done"
-
-  track-current-version:
-    runs-on: ubuntu-latest
-    needs: [check-for-update, update]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Init Git
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-
-      - name: Update currently deployed version
-        run: |
-          echo "${{ needs.check-for-update.outputs.latest_version }}" > current.txt
-      
-      - name: Push update
-        run: |
-          git add -A
-          git commit -m "Update version to ${{ needs.check-for-update.outputs.latest_version }}" && git push || true
