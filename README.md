@@ -41,3 +41,7 @@ Now we need to get the following secrets and store them in GitHub Action secrets
 This example uses mirroring to [Codeberg](https://codeberg.org/litetex/fdroid-pages).
 
 The mirrored Codeberg site is available at: https://litetex.codeberg.page/fdroid-pages
+
+## Similar projects
+* https://gitlab.com/julianfairfax/fdroid-repo
+* https://github.com/breezy-weather/fdroid-repo
