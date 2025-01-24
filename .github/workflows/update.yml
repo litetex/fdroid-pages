@@ -21,11 +21,12 @@ jobs:
   update:
     runs-on: ubuntu-latest
     outputs:
-      executed_update: ${{ steps.check.postprocess.executed_update }}
+      executed_update: ${{ steps.postprocess.outputs.executed_update }}
     steps:
       - uses: actions/checkout@v4
 
-      - id: update
+      - name: Update
+        id: update
         run: |
           set -e
           declare -a repo_infos=( \
@@ -167,7 +168,8 @@ jobs:
           publish_dir: ./deploy
           force_orphan: true
       
-      - id: postprocess
+      - name: PostProcess
+        id: postprocess
         if: ${{ env.do_update == 'true' }}
         run: |
           echo "Configuring git"
