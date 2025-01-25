@@ -1,6 +1,6 @@
 # fdroid-pages
 
-Showcases how it's possible to provide an F-Droid repo on a static site hosting service like GitHub Pages.
+Showcases how it's possible to provide an [F-Droid repo](https://f-droid.org/en/docs/Setup_an_F-Droid_App_Repo/) on a static site hosting service like GitHub Pages.
 
 It currently is configured to contain [NewPipe-nightly](https://github.com/TeamNewPipe/NewPipe-nightly) and [NewPipe-refactor-nightly](https://github.com/TeamNewPipe/NewPipe-refactor-nightly).
 
@@ -36,8 +36,11 @@ Now we need to get the following secrets and store them in GitHub Action secrets
 | ``config.yml``→``keystorepass`` or ``keypass`` (identical) | ``KEYPASS`` | ``keystorepass`` and ``keypass`` are usually identical |
 | ``config.yml``→``keydname`` | ``KEYDNAME`` | |
 
-## Mirroring
+## Updating
+Updates are checked for every night [using GitHub Actions](./.github/workflows/update.yml).
+If an update is found, the repo is rebuilt.
 
+## Mirroring
 This example uses mirroring to [Codeberg](https://codeberg.org/litetex/fdroid-pages).
 
 The mirrored Codeberg site is available at: https://litetex.codeberg.page/fdroid-pages
