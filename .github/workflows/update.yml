@@ -27,6 +27,8 @@ jobs:
 
       - name: Update
         id: update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
           declare -a repo_infos=(
@@ -55,7 +57,10 @@ jobs:
 
               latest_version=""
               if [[ "$provider" == "github" ]]; then
-                latest_release_data=$(curl -L https://api.github.com/repos/$repo/releases/latest)
+                latest_release_data=$(curl -L -H "Accept: application/vnd.github+json" \
+                    -H "Authorization: Bearer $GITHUB_TOKEN" \
+                    -H "X-GitHub-Api-Version: 2022-11-28" \ 
+                    https://api.github.com/repos/$repo/releases/latest)
                 latest_version=$(echo "$latest_release_data" | jq -r '.name')
               else
                 echo "Unknown provider"
@@ -90,11 +95,19 @@ jobs:
 
             latest_version=""
             if [[ "$provider" == "github" ]]; then
-              curl -L https://api.github.com/repos/$repo/releases?per_page=3 \
+              curl -L \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer $GITHUB_TOKEN" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \ 
+                  https://api.github.com/repos/$repo/releases?per_page=3 \
                 | jq -r '.[].assets[].browser_download_url' \
                 | while read -r url; do wget -P apks --no-verbose $url; done
               
-              latest_release_data=$(curl -L https://api.github.com/repos/$repo/releases/latest)
+              latest_release_data=$(curl -L \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer $GITHUB_TOKEN" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \ 
+                  https://api.github.com/repos/$repo/releases/latest)
               latest_version=$(echo "$latest_release_data" | jq -r '.name')
             else
               echo "Unknown provider"
