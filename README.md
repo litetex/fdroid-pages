@@ -16,7 +16,7 @@ You need a few secrets that are used for verifying the repo.
 To generate these you have to run the ``fdroid-repo-generator``-Docker image offline.
 
 0. Ensure that you have Docker installed
-1. Checkout the repo and open in your terminal
+1. Checkout the repo and open it in your terminal
 2. Select the directory [``fdroid-repo-generator``](./fdroid-repo-generator) using ``cd fdroid-repo-generator``
 3. Build the image offline: ``docker build --tag fdroid-repo-generator .`` (the dot at the end is important)
 4. Launch the container ``docker run --rm -it --entrypoint=/bin/bash -v %cd%/temp-repo:/repo -w /repo fdroid-repo-generator``
@@ -27,7 +27,7 @@ To generate these you have to run the ``fdroid-repo-generator``-Docker image off
 
 You now should have a fresh F-Droid repo initialized in ``temp-repo``.
 
-Now we need to get the following secrets and store them in GitHub Action secrets:
+The next step is to get the following secrets and store them in GitHub Action secrets:
 
 | What? | Secret name | Notes |
 | --- | --- | --- |
