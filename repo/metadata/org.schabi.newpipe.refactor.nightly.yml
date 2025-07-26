@@ -1,7 +1,7 @@
 # See also: https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/org.schabi.newpipe.yml
 AntiFeatures:
   NonFreeNet:
-    en-US: Depends on Youtube for videos.
+    en-US: Depends on 3rd party services like Youtube for videos.
 Categories:
   - Internet
   - Multimedia
