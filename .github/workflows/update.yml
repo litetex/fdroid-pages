@@ -23,7 +23,7 @@ jobs:
     outputs:
       executed_update: ${{ steps.postprocess.outputs.executed_update }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Update
         id: update
