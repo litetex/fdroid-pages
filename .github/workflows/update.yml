@@ -143,7 +143,7 @@ jobs:
 
       - name: Build F-Droid Repo Generator
         if: ${{ env.do_update == 'true' }}
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./fdroid-repo-generator
           load: true
