@@ -135,7 +135,7 @@ jobs:
         if: ${{ env.do_update == 'true' }}
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d - > repo/keystore.p12
       
-      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-qemu-action@v4
         if: ${{ env.do_update == 'true' }}
 
       - uses: docker/setup-buildx-action@v3
