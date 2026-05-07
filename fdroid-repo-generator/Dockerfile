@@ -1,6 +1,6 @@
 FROM python:3-slim
 
-# Install JDK 21 (Elcipse Temurin)
+# Install JDK 21 (Eclipse Temurin)
 RUN apt-get update \
     && apt-get install apt-transport-https gpg wget -y \
     && wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null \
