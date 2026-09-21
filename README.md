@@ -48,3 +48,4 @@ The mirrored Codeberg site is available at: https://litetex.codeberg.page/fdroid
 ## Similar projects
 * https://gitlab.com/julianfairfax/fdroid-repo
 * https://github.com/breezy-weather/fdroid-repo
+* https://github.com/wgtunnel/fdroid
